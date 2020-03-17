@@ -1,0 +1,9 @@
+# Infrastructure
+# - Defines the vCenter / vSphere environment
+deploy_vsphere_vcenter: 'ipcvcsupm01.mpcmgt1.pc.ecs.hp.com'
+deploy_vsphere_user: 'mpcmgt1\asjohor'
+deploy_vsphere_password: 'Abc123!!!'
+deploy_vsphere_datacenter: 'MGTdatacenter'
+deploy_vsphere_folder: 'RDN-DEV'
+deploy_vsphere_cluster: 'MGMTcluster'
+#deploy_vsphere_resourcepool: 'Zabbix test'

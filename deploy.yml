@@ -1,0 +1,39 @@
+---
+- hosts: satellite-server
+  gather_facts: false
+  vars_files:
+    - infra-config.yml
+    - all_config.yml
+  roles:
+     - vm-deploy
+
+- hosts: satellite-server
+  gather_facts: false
+  connection: local
+  vars_files:
+    - infra-config.yml
+    - all_config.yml
+  roles:
+     - vm-add-disk
+
+- hosts: satellite-server
+  gather_facts: false
+  become: yes
+  vars_files:
+    - infra-config.yml
+    - all_config.yml
+  roles:
+     - fs-create
+     - yum-http-server
+     - yum-client
+
+- hosts: satellite-server
+  gather_facts: false
+  become: yes
+  vars_files:
+    - infra-config.yml
+    - all_config.yml
+  tasks:
+  - name: Install ansible from new repo
+    yum: name=ansible state=present
+

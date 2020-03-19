@@ -1,0 +1,17 @@
+---
+- name: Add disks to virtual machine using hostname
+  vmware_guest_disk:
+    hostname: "{{ deploy_vsphere_vcenter }}"
+    username: "{{ deploy_vsphere_user }}"
+    password: "{{ deploy_vsphere_password }}"
+    datacenter: "{{ deploy_vsphere_datacenter }}"
+    validate_certs: no
+    name: '{{ inventory_hostname }}'
+    disk:
+      - size_gb: 100
+        type: thin
+        datastore: "{{ deploy_vsphere_datastore }}"
+        state: present
+        scsi_controller: 0
+        unit_number: 1
+        scsi_type: 'paravirtual'

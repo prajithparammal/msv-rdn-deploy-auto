@@ -1,0 +1,13 @@
+---
+  - name: Remove default media repository
+    file: path=/etc/yum.repos.d/media.repo state=absent
+
+  - name: Adding https repos
+    yum_repository:
+      name: "{{ item.name }}"
+      description: "{{ item.name }}"
+      file: "{{ item.repo_file_name }}"
+      baseurl: http://{{ http_yum_server }}/{{ item.repo_path_web_short }}
+      gpgcheck: no
+      enabled: yes
+    with_items: "{{ repos }}"

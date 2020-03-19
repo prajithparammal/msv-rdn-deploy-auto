@@ -1,0 +1,8 @@
+ # Infrastructure
+# - Defines the vCenter / vSphere environment
+deploy_vsphere_vcenter: 'xxxxxx.xxxxx.xxxx.ecs.hp.com'
+deploy_vsphere_user: 'xxxxx\xxxxxx'
+deploy_vsphere_password: 'Abc123!!!'
+deploy_vsphere_datacenter: 'MGTdatacenter'
+deploy_vsphere_folder: 'RDN-DEV'
+deploy_vsphere_cluster: 'MGMTcluster'

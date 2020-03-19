@@ -1,0 +1,16 @@
+# - Describes virtual machine common options
+guest_network: 'Management-nofailover'
+guest_netmask: '255.255.255.192'
+guest_gateway: '192.168.32.193'
+guest_dns_server: '172.26.2.13'
+guest_domain_name: 'mpcmgt1.pc.ecs.hp.com'
+guest_id: 'centos64Guest'
+guest_memory: '2096'
+guest_vcpu: '1'
+#guest_template: ''
+guest_wait_for_ip_address: 'yes'
+guest_state: 'poweredon'
+
+
+## RDN YUM SERVER
+http_yum_server: 192.168.32.237

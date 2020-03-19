@@ -1,0 +1,84 @@
+---
+  - name: Setting selinux to Permissive
+    selinux:
+      policy: targeted
+      state: permissive
+
+  - name: Copy httpd rpms and its dependencies to target server
+    copy:
+      src: ../files/apache-rpms
+      dest: /repository/
+
+  - name: "Determine if the HTTPD is installed"
+    shell: httpd
+    register: validatehttpd
+    ignore_errors: yes
+
+  - name: Install apche rpms
+    shell: yum localinstall *.rpm -y
+    args:
+      chdir: /repository/apache-rpms
+    when: "'not found' in validatehttpd.stderr"
+
+  - name: Temp content for httpd
+    copy:
+      content: "<center><h1>This is a Lab Utility Server</h1></center>"
+      dest: /var/www/html/index.html
+      mode: 0644
+
+  - name: Creating repo directory if it dont exist
+    file:
+      path: "{{ item.repo_path_local }}"
+      state: directory
+      owner: root
+      group: root
+      mode: 0775
+    with_items: "{{ repos }}"
+
+
+  - name: Create symlink to {{ repo_path_local }}
+    file:
+      src: "{{ item.repo_path_local }}"
+      dest: "{{ item.repo_path_web }}"
+      state: link
+    with_items: "{{ repos }}"
+
+  - name: Open http traffic on firewall
+    firewalld:
+      service: "{{ item }}"
+      permanent: yes
+      immediate: yes
+      state: enabled
+    with_items:
+      - http
+      - https
+
+  - name: Start and Enable Apache
+    service:
+      name: httpd
+      state: started
+      enabled: yes
+
+  - name: Syncing rpms from source to destination
+    copy:
+      src: "{{ item.repo_packages_source }}"
+      dest: "{{ item.repo_path_local }}"
+    with_items: "{{ repos }}"
+    tags: repo-update
+
+  - name: Update Repository
+    shell: createrepo --update {{ item.repo_path_local }}
+    with_items: "{{ repos }}"
+    tags: repo-update
+
+  - name: Setting httpd selinux attirube for repo path
+    shell: chcon -R -t httpd_sys_content_t {{ item.repo_path_local }}/* && yum clean expire-cache && chmod -R a+rx {{ item.repo_path_local }}/*
+    with_items: "{{ repos }}"
+    tags: repo-update
+
+
+  - name: Restarting Apache
+    service:
+      name: httpd
+      state: restarted
+    

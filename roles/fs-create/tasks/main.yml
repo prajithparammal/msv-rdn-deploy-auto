@@ -1,0 +1,40 @@
+---
+  - name: Checking if repo lv and vg already exiting..
+    shell: ls /dev/vg_repo/lv_repo
+    register: lvstatus
+    ignore_errors: true
+
+  - name: Create logical volume vg_repo/lv_repo for RDN satellite
+    lvg:
+      vg: vg_repo
+      pvs: /dev/sdb
+    when: "'No such file' in lvstatus.stderr"
+  
+  - name: creating lv lv_repo
+    lvol:
+      vg: vg_repo
+      lv: lv_repo
+      size: 100%FREE
+      pvs: /dev/sdb
+    when: "'No such file' in lvstatus.stderr"
+  
+  - name: Creating filesystem on created lvm vg_repo/lv_repo
+    filesystem:
+      fstype: ext4
+      dev: "/dev/mapper/vg_repo-lv_repo"
+      force: no
+    when: "'No such file' in lvstatus.stderr"
+
+  - name: Create a /repository to mount the filesystem
+    file:
+      path: "/repository"
+      state: directory
+      mode: '0755'
+  
+  - name: Mount the created vg_repo/lv_repo filesystem.
+    mount:
+      path: "/repository"
+      src: "/dev/mapper/vg_repo-lv_repo"
+      fstype: "ext4"
+      opts: rw,nosuid,noexec
+      state: mounted

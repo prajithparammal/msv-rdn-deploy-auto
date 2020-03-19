@@ -1,0 +1,7 @@
+    repos:
+      - name: core-repo
+        repo_path_local: /repository/core
+        repo_path_web: /var/www/html/core
+        repo_path_web_short: core
+        repo_file_name: core
+        repo_packages_source: /root/core-packages/

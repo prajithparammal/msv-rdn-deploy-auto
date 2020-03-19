@@ -1,0 +1,14 @@
+[satellite-server]
+satellite-rdn-dev ansible_host=192.168.32.237 deploy_vsphere_datastore='FC-MgmtDS004' guest_template='DXC_CORE_CENT76_FIRSTCUT_201911' guest_custom_ip='192.168.32.237' guest_notes='satellite-rdn-dev'
+
+[postgres-db]
+postgres-rdn-dev deploy_vsphere_datastore='FC-MgmtDS004' guest_template='DXC_CORE_CENT76_FIRSTCUT_201911' guest_custom_ip='192.168.32.239' guest_notes='vault-postgres-dev'
+
+[all:children]
+satellite-server
+postgres-db
+
+[all:vars]
+ansible_user=devops
+ansible_ssh_pass=Login@123
+become_method=sudo

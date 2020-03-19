@@ -1,2 +1,0 @@
-  - name: Red Hat Enterprise Linux 7.5 golddisk
-    yum_repository:

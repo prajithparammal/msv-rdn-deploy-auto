@@ -1,8 +1,0 @@
----
-- hosts: satellite-server
-  gather_facts: false
-  vars_files:
-    - infra-config.yml
-    - all_config.yml
-  roles:
-     - vm-deploy

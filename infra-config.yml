@@ -1,9 +1,0 @@
-# Infrastructure
-# - Defines the vCenter / vSphere environment
-deploy_vsphere_vcenter: ''
-deploy_vsphere_user: ''
-deploy_vsphere_password: ''
-deploy_vsphere_datacenter: 'MGTdatacenter'
-deploy_vsphere_folder: 'RDN-DEV'
-deploy_vsphere_cluster: 'MGMTcluster'
-#deploy_vsphere_resourcepool: 'Zabbix test'

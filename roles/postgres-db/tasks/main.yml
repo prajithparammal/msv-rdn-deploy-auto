@@ -6,6 +6,7 @@
     with_items:
       - postgresql-server
       - postgresql-contrib
+      - python-psycopg2
 
   - name: Check if PostgreSQL database is initialized.
     stat:
@@ -15,9 +16,6 @@
   - name: Ensure PostgreSQL database is initialized.
     command: postgresql-setup initdb
     when: not pgdata_dir_version.stat.exists
-
-#  - name: Setting up {{ postgresql_user }} credentials
-#    user: name={{ postgresql_user }} update_password=always password={{ postgresql_password | password_hash('sha512')}}
 
   - name: Adding firewalld rule for postgres
     firewalld:
@@ -30,3 +28,4 @@
       name: postgresql
       state: started
       enabled: yes
+

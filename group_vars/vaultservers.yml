@@ -1,3 +1,4 @@
-csr_country_name: "US"
-csr_organization_name: "DXC"
-csr_email_address: "maneeshkumar.kg@dxc.com"
+csr_country_name: US
+csr_organization_name: DXC
+csr_email_address: MY-CPS-MCBC-PE@dxc.com
+vault_fs_path: /vault-data

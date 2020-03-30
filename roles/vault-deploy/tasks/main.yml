@@ -10,7 +10,6 @@
       dest: /usr/local/bin/
       remote_src: True
 
-
   - name: Set vault binary capabilities
     capabilities:
       path: /usr/local/bin/vault

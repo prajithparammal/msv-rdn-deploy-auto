@@ -3,34 +3,39 @@
     package:
       name: unzip
       update_cache: yes
-    become: true
 
   - name: Download and install vault binary
     unarchive:
       src: "https://releases.hashicorp.com/vault/{{ vault_version }}/vault_{{ vault_version }}_linux_amd64.zip"
-      dest: /usr/bin/
+      dest: /usr/local/bin/
       remote_src: True
-    become: true
 
-  - name: Create vault config directory
-    file: state=directory path=/etc/opt/vault/
-    become: true
+
+  - name: Set vault binary capabilities
+    capabilities:
+      path: /usr/local/bin/vault
+      capability: cap_ipc_lock+ep
+      state: present
+
+
+  - name: Add vault user
+    user: name=vault shell=/bin/false create_home=True home="{{ vault_config_path }}" comment="vault service account" system=True state=present
 
   - name: Copy vault config to server
-    copy: src=vault.hcl dest=/etc/opt/vault/
-    become: true
+    template:
+      src: vault.hcl.j2
+      dest: "{{ vault_config_path }}"
+      owner: "{{ vault_user }}"
+      group: "{{ vault_group }}"
 
   - name: Copy vault service to server
     copy: src=vault.service dest=/usr/lib/systemd/system/vault.service
-    become: true
 
   - name: Start vault service
     systemd:
       state: started
       name: vault
       daemon_reload: yes
-    become: true
-
   - pause:
       seconds: 15
 

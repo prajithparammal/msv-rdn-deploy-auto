@@ -1,0 +1,5 @@
+---
+vault_version: 1.3.2
+vault_config_path: /etc/vault.d
+vault_user: vault
+vault_group: vault

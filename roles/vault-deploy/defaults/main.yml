@@ -3,3 +3,9 @@ vault_version: 1.3.2
 vault_config_path: /etc/vault.d
 vault_user: vault
 vault_group: vault
+cert_dir: /etc/vault.d/ssl/certs
+key_dir: /etc/vault.d/ssl/private
+csr_dir: /etc/vault.d/ssl/csr
+key: vault-selfsigned.key
+csr: vault-selfsigned.csr
+cert: vault-selfsigned.crt

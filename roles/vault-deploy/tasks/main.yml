@@ -17,9 +17,37 @@
       capability: cap_ipc_lock+ep
       state: present
 
-
   - name: Add vault user
     user: name=vault shell=/bin/false create_home=True home="{{ vault_config_path }}" comment="vault service account" system=True state=present
+
+  - name: Generate private key to sign the CSR
+    openssl_privatekey:
+      path: "{{ key_dir }}/{{ key }}"
+      owner: vault
+      group: vault
+      mode: 0400
+
+  - name: Generate an Certificate Signing Request
+    openssl_csr:
+      path: "{{ csr_dir }}/{{ csr }}"
+      privatekey_path: "{{ key_dir }}/{{ key }}"
+      country_name: "{{ csr_country_name }}"
+      organization_name: "{{ csr_organization_name }}"
+      email_address: "{{ csr_email_address }}"
+      common_name: "{{ ansible_fqdn }}"
+      owner: vault
+      group: vault
+      mode: 0755
+
+  - name: Generate a Self Signed OpenSSL certificate
+    openssl_certificate:
+      path: "{{ cert_dir }}/{{ cert }}"
+      privatekey_path: "{{ key_dir }}/{{ key }}"
+      csr_path: "{{ csr_dir }}/{{ csr }}"
+      provider: selfsigned
+      owner: vault
+      group: vault
+      mode: 0744
 
   - name: Copy vault config to server
     template:

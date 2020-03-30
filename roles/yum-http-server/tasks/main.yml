@@ -1,8 +1,8 @@
 ---
   - name: Setting selinux to Permissive
     selinux:
-      policy: targeted
-      state: permissive
+    policy: targeted
+    state: permissive
 
   - name: Copy httpd rpms and its dependencies to target server
     copy:

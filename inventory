@@ -12,3 +12,10 @@ postgres-db
 ansible_user=devops
 ansible_ssh_pass=Login@123
 become_method=sudo
+
+
+[vaultservers]
+localhost
+
+[vaultservers:vars]
+vault_version=0.10.3

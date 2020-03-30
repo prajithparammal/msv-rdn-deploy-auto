@@ -1,0 +1,21 @@
+{
+   "listener":[
+      {
+         "tcp":{
+            "address":"0.0.0.0:8200",
+            "tls_cert_file":"/etc/vault.d/ssl/certs/vault-selfsigned.crt",
+            "tls_key_file":"/etc/vault.d/ssl/private/vault-selfsigned.key"
+         }
+      }
+   ],
+   "api_addr":"https://ipcrepupw01n.mgt1.pc.svcs.entsvcs.net:8200",
+   "storage":{
+      "postgresql":{
+         "connection_url":"postgresql://postgres:Dxc1234@192.168.32.227:5432/vault132?sslmode=disable"
+      }
+   },
+   "max_lease_ttl":"10h",
+   "default_lease_ttl":"10h",
+   "ui":true
+}
+
